@@ -1,0 +1,14 @@
+default:
+  outputs:
+    snowflake:
+      type: snowflake
+      threads: 4
+      client_session_keep_alive: False
+      account: "{{ env_var('DBT_ACCOUNT') }}"
+      user: "{{ env_var('DBT_ENV_SECRET_USER') }}"
+      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      role: "{{ env_var('DBT_DB_ROLE') }}"
+      database: "{{ env_var('DBT_DB') }}"
+      warehouse: "{{ env_var('DBT_WH') }}"
+      schema: "bank_demo"
+  target: snowflake

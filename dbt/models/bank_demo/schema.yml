@@ -1,0 +1,246 @@
+version: 2
+
+models:
+  - name: transactions
+    config:
+      materialized: table
+      re_data_monitored: true
+      re_data_anomaly_detector:
+        name: z_score
+        threshold: 2.2
+    description: ""
+    columns:
+      - name: transaction_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: sender_account_id
+        description: ""
+        tests:
+          - not_null
+
+      - name: receiver_account_id
+        description: ""
+        tests:
+          - not_null
+
+      - name: transaction_type
+        description: ""
+        tests:
+          - not_null
+
+      - name: net_cash_flow_amount
+        description: ""
+        tests:
+          - not_null
+
+      - name: transaction_time
+        description: ""
+        tests:
+          - not_null
+  
+  - name: individual_customers
+    config:
+      materialized: table
+      re_data_monitored: true
+      re_data_anomaly_detector:
+        name: z_score
+        threshold: 2.2
+    description: ""
+    columns:
+      - name: customer_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: ""
+        tests:
+          - not_null
+
+      - name: country_of_birth
+        description: ""
+        tests:
+          - not_null
+
+      - name: birth_date
+        description: ""
+        tests:
+          - not_null
+
+      - name: gender
+        description: ""
+        tests:
+          - not_null
+
+      - name: social_security_number
+        description: ""
+        tests:
+          - not_null
+
+      - name: state
+        description: ""
+        tests:
+          - not_null
+
+      - name: city
+        description: ""
+        tests:
+          - not_null
+
+      - name: address
+        description: ""
+        tests:
+          - not_null
+
+      - name: zip
+        description: ""
+        tests:
+          - not_null
+  
+  - name: account_unit_balance
+    config:
+      materialized: table
+      re_data_monitored: true
+      re_data_anomaly_detector:
+        name: z_score
+        threshold: 2.2
+    description: ""
+    columns:
+      - name: account_unit_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: net_amount
+        description: ""
+        tests:
+          - not_null
+
+      - name: population_time
+        description: ""
+        tests:
+          - not_null
+  
+  - name: customer_receiver_transactions
+    config:
+      materialized: table
+      re_data_monitored: true
+      re_data_anomaly_detector:
+        name: z_score
+        threshold: 2.2
+    description: ""
+    columns:
+      - name: customer_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: transactions_count
+        description: ""
+        tests:
+          - not_null
+
+      - name: transactions_amount
+        description: ""
+        tests:
+          - not_null
+  
+  - name: customer_sender_transactions
+    config:
+      materialized: table
+      re_data_monitored: true
+      re_data_anomaly_detector:
+        name: z_score
+        threshold: 2.2
+    description: ""
+    columns:
+      - name: customer_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: ""
+        tests:
+          - not_null
+          - unique
+
+      - name: transactions_count
+        description: ""
+        tests:
+          - not_null
+
+      - name: transactions_amount
+        description: ""
+        tests:
+          - not_null
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: raw_accounts
+        columns:
+          - name: ACCOUNT_ID
+            tests:
+              - not_null
+              - unique
+          - name: CUSTOMER_ID
+            tests:
+              - not_null
+              - unique
+          - name: INIT_BALANCE
+            tests:
+              - not_null
+          - name: COUNTRY
+            tests:
+              - not_null
+          - name: ACCOUNT_TYPE
+            tests:
+              - not_null
+          - name: IS_FRAUD
+            tests:
+              - not_null
+          - name: TX_BEHAVIOR_ID
+            tests:
+              - not_null
+      - name: raw_transactions
+        columns:
+          - name: TX_ID
+            tests:
+              - not_null
+              - unique
+          - name: SENDER_ACCOUNT_ID
+            tests:
+              - not_null
+          - name: RECEIVER_ACCOUNT_ID
+            tests:
+              - not_null
+          - name: TX_TYPE
+            tests:
+              - not_null
+          - name: TX_AMOUNT
+            tests:
+              - not_null
+          - name: TIMESTAMP
+            tests:
+              - not_null
+          - name: IS_FRAUD
+            tests:
+              - not_null
+          - name: ALERT_ID
+            tests:
+              - not_null
