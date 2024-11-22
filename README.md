@@ -1,4 +1,4 @@
-# data-mesh-bank-demo
+# data-mesh-bank-demo Release 1
 
 This demo has some fake bank customer money transactions.
 
